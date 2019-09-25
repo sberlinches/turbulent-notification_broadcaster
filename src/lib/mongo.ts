@@ -20,8 +20,13 @@ export default class Mongo {
     return new Promise((resolve, reject) => {
       MongoClient.connect(this.url(), this.options)
         .then((client) => {
-          // tslint:disable-next-line:no-console
-          console.log(`Mongo connected on: ${ this.host }:${ this.port }`);
+
+          console.log('%o: Mongo connected on: %s:%s',
+            new Date(),
+            this.host,
+            this.port,
+          );
+
           this.client = client;
         })
         .then(() => this.loadModels())
@@ -69,8 +74,7 @@ export default class Mongo {
    */
   public static close(): void {
     if (this.client) {
-      // tslint:disable-next-line:no-console
-      console.log('Mongo closed');
+      console.log('%o: Mongo connection closed', new Date());
       this.client.close();
     }
   }

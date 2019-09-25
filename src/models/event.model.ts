@@ -70,10 +70,10 @@ export class EventModel extends Model {
    * Gets the events after the current date
    * @return {Promise<Array<Event>>} — A list of events
    */
-  public async getFutureEvents(): Promise<Array<Event>> {
+  public async getNonExpiredEvents(): Promise<Array<Event>> {
     return this._collection
       .find({ scheduledAt: { $gte: new Date() } })
       .sort({ scheduledAt: 1 })
-      .toArray()
+      .toArray();
   }
 }

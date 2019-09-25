@@ -3,12 +3,15 @@ import * as http from 'http';
 import express from 'express';
 import expressWs from 'express-ws';
 
-export const e = expressWs(express());
+// TODO: Split this file into HTTPServer and WSServer
+export const expressWS = expressWs(express());
 import {router} from '../controllers/router';
-e.app.use(router);
+expressWS.app.use(router);
 
 export default class Server {
 
+  private static readonly host: string = config.get('node.host');
+  private static readonly port: number = config.get('node.port');
   private static server;
 
   /**
@@ -16,16 +19,16 @@ export default class Server {
    */
   public static async start(): Promise<http.Server> {
     return new Promise((resolve, reject) => {
-      this.server = e.app.listen(config.get('node.port'), config.get('node.host'), (err) => {
+      this.server = expressWS.app.listen(this.port, this.host, (err) => {
         if (err) {
           return reject(err);
         }
 
-        // tslint:disable-next-line:no-console
-        console.log('Server listening on: %s:%s (%s)',
-          config.get('node.host'),
-          config.get('node.port'),
-          e.app.get('env'),
+        console.log('%o: Server listening on: %s:%s (%s)',
+          new Date(),
+          this.host,
+          this.port,
+          expressWS.app.get('env'),
         );
 
         resolve(this.server);
@@ -38,8 +41,7 @@ export default class Server {
    */
   public static close(): void {
     if (this.server) {
-      // tslint:disable-next-line:no-console
-      console.log('Server closed');
+      console.log('%o: Server closed', new Date());
       this.server.close();
     }
   }

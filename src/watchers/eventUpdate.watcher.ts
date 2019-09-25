@@ -1,29 +1,47 @@
 import WebSocket from 'ws';
-import {Watcher} from '../lib/watcher';
+import schedule from 'node-schedule';
 import Mongo from '../lib/mongo';
+import {Event} from '../models/event.model';
 
-export class EventUpdateWatcher implements Watcher {
+// TODO: Create a scheduler module
+export class EventUpdateWatcher {
 
   private static subscribers: Set<WebSocket>;
 
   /**
    * Watches the changes in the event collection
+   * TODO: Watch multiple events inside the collection
    */
   public static watch(): void {
 
     Mongo.model.event.collection
       .watch()
       .on('change', async (event) => {
+
         console.log('%o: New Document scheduledAt: %o', new Date(), event.fullDocument.scheduledAt);
 
-        this.emit('test');
+        // TODO: Limit the number of declared jobs
+        Mongo.model.event.getNonExpiredEvents()
+          .then((events) => {
+
+            // Erases all the scheduled jobs
+            // TODO: filter them by origin
+            for (const job in schedule.scheduledJobs) {
+              schedule.scheduledJobs[job].cancel();
+            }
+
+            // tslint:disable-next-line:prefer-for-of
+            for (let i = 0; i < events.length; i++) {
+              this.emit(events[i]);
+            }
+          });
       });
   }
 
   /**
    * Subscribes a group of clients to the watcher
    * TODO: Accept multiple subscribers
-   * @param {} clients —
+   * @param {Set<WebSocket>} clients — A set of sockets
    */
   public static subscribe(clients: Set<WebSocket>): void {
     this.subscribers = clients;
@@ -31,16 +49,17 @@ export class EventUpdateWatcher implements Watcher {
 
   /**
    * Emits the data to the subscribed clients
-   * @param {string} data — A string of data
+   * @param {Event} event — A string of data
    */
-  private static emit(data: string): void {
+  private static emit(event: Event): void {
 
-    console.log('%o: %s clients: Broadcasting: %s', new Date(), this.subscribers.size, data);
-
-    this.subscribers.forEach(function each(client) {
-      if (client.readyState === WebSocket.OPEN) {
-        client.send(data);
-      }
+    schedule.scheduleJob(event.scheduledAt, () => {
+      console.log('%o: %s clients: Broadcasting: %s', new Date(), this.subscribers.size, event.title);
+      this.subscribers.forEach(function each(client) {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(event.title);
+        }
+      });
     });
   }
 }
