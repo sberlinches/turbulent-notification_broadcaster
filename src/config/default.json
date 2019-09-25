@@ -1,0 +1,21 @@
+{
+  "express": {
+    "router": {
+      "caseSensitive": false,
+      "mergeParams": false,
+      "strict": true
+    }
+  },
+  "model": {
+    "event": {
+      "db": "turbulent",
+      "collection": "event"
+    }
+  },
+  "mongo": {
+    "clientOptions": {
+      "useNewUrlParser": true,
+      "useUnifiedTopology": true
+    }
+  }
+}
