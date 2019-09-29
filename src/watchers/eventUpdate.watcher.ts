@@ -54,7 +54,7 @@ export class EventUpdateWatcher {
   private static emit(event: Event): void {
 
     schedule.scheduleJob(event.scheduledAt, () => {
-      console.log('%o: %s clients: Broadcasting: %s', new Date(), this.subscribers.size, event.title);
+      console.log('%o: %s client(s): Broadcasting: %s', new Date(), this.subscribers.size, event.title);
       this.subscribers.forEach(function each(client) {
         if (client.readyState === WebSocket.OPEN) {
           client.send(event.title);
