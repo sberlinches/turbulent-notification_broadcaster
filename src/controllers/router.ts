@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import {expressWS} from '../lib/server';
+import {expressWS} from '../lib/httpServer';
 import {EventController} from './event.controller';
 
 export const router = Router();

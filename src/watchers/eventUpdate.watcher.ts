@@ -1,6 +1,6 @@
 import WebSocket from 'ws';
 import schedule from 'node-schedule';
-import Mongo from '../lib/mongo';
+import {Mongo} from '../lib/mongo';
 import {Event} from '../models/event.model';
 
 // TODO: Create a scheduler module

@@ -1,17 +1,11 @@
-import Mongo from './lib/mongo';
-import Server from './lib/server';
+import {HttpServer} from './lib/httpServer';
+import {Mongo} from './lib/mongo';
 import {EventUpdateWatcher} from './watchers/eventUpdate.watcher';
 
-// Starts in parallel
-Promise.all([
-    Mongo.connect(),
-    Server.start(),
-  ])
-  .then(() => {
-    EventUpdateWatcher.watch();
-  })
-  .catch((err) => {
-    console.error('fail', err);
+HttpServer.start()
+  .then(() => Mongo.connect())
+  .then(() => EventUpdateWatcher.watch())
+  .catch(() => {
+    HttpServer.stop();
     Mongo.close();
-    Server.close();
   });
