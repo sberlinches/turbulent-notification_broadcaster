@@ -4,9 +4,11 @@ import {EventController} from './event.controller';
 
 export const router = Router();
 
-router.ws('/events.subscribeScheduledEvents', () => {
+// WS routes
+router.ws('/events.subscribeScheduledEvents', (ws, req) => {
   EventController.subscribeScheduledEvents(
     // @ts-ignore
     expressWS.getWss('/events.subscribeScheduledEvents'),
+    req,
   );
 });

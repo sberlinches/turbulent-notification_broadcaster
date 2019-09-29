@@ -1,14 +1,18 @@
+import {Request} from 'express';
+import {Server} from 'ws';
 import {EventUpdateWatcher} from '../watchers/eventUpdate.watcher';
-import * as ws from 'ws';
 
 export class EventController {
 
   /**
    * Subscribe scheduled events
    * The subscribed client will receive the next scheduled events
-   * @param {ws.Server} wss — WebSocket server
+   * @param {Server} wss — WebSocket server
+   * @param {Request} req — HTTP request argument
    */
-  public static subscribeScheduledEvents = (wss: ws.Server): void => {
+  public static subscribeScheduledEvents = (wss: Server, req: Request): void => {
+
+    console.log('%o: %s client(s) listening to: %s', new Date(), wss.clients.size, req.originalUrl);
     EventUpdateWatcher.subscribe(wss.clients);
   }
 }
