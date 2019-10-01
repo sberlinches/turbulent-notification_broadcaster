@@ -16,7 +16,7 @@ export interface Event {
  */
 export class EventsCollection extends MongoCollection {
 
-  collection: Collection<Event>;
+  _collection: Collection<Event>;
   dbName: string;
   collectionName: string;
 
@@ -25,7 +25,7 @@ export class EventsCollection extends MongoCollection {
 
     this.dbName = config.get('databases.mongoEventsManager.dbName');
     this.collectionName = config.get('databases.mongoEventsManager.collections.events.collectionName');
-    this.collection = this.createCollection();
+    this._collection = this.createCollection();
   }
 
   /**
@@ -38,11 +38,18 @@ export class EventsCollection extends MongoCollection {
   }
 
   /**
+   * @return {Collection<Event>}
+   */
+  public get collection(): Collection<Event> {
+    return this._collection;
+  }
+
+  /**
    * Gets the events after the current date
    * @return {Promise<Array<Event>>} — A list of events
    */
   public async getNonExpiredEvents(): Promise<Array<Event>> {
-    return this.collection
+    return this._collection
       .find({ scheduledAt: { $gte: new Date() } })
       .sort({ scheduledAt: 1 })
       .toArray();

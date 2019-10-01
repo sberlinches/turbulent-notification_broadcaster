@@ -6,7 +6,7 @@ import {MongoClient, Collection} from 'mongodb';
 export abstract class MongoCollection {
 
   protected readonly _mongoClient: MongoClient;
-  protected abstract readonly collection: Collection<any>;
+  protected abstract readonly _collection: Collection<any>;
   public abstract readonly dbName: string;
   public abstract readonly collectionName: string;
 
