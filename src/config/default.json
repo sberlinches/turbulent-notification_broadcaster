@@ -1,11 +1,4 @@
 {
-  "express": {
-    "router": {
-      "caseSensitive": false,
-      "mergeParams": false,
-      "strict": true
-    }
-  },
   "databases": {
     "mongoEventsManager": {
       "host": "",
@@ -22,6 +15,13 @@
           "collectionName": "event"
         }
       }
+    }
+  },
+  "express": {
+    "router": {
+      "caseSensitive": false,
+      "mergeParams": false,
+      "strict": true
     }
   }
 }

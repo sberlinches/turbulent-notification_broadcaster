@@ -1,8 +1,4 @@
 {
-  "server": {
-    "host": "SERVER_HOST",
-    "port": "SERVER_PORT"
-  },
   "databases": {
     "mongoEventsManager": {
       "host": "MONGO_EVENTS_MANAGER_HOST",
@@ -10,5 +6,9 @@
       "user": "MONGO_EVENTS_MANAGER_USER",
       "password": "MONGO_EVENTS_MANAGER_PASSWORD"
     }
+  },
+  "server": {
+    "host": "SERVER_HOST",
+    "port": "SERVER_PORT"
   }
 }
