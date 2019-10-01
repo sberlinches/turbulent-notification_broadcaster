@@ -1,11 +1,15 @@
 {
-  "mongo": {
-    "host": "MONGO_HOST",
-    "port": "MONGO_PORT"
-  },
   "node": {
     "env": "NODE_ENV",
     "host": "NODE_HOST",
     "port": "NODE_PORT"
+  },
+  "databases": {
+    "mongoEventsManager": {
+      "host": "MONGO_EVENTS_MANAGER_HOST",
+      "port": "MONGO_EVENTS_MANAGER_PORT",
+      "user": "MONGO_EVENTS_MANAGER_USER",
+      "password": "MONGO_EVENTS_MANAGER_PASSWORD"
+    }
   }
 }

@@ -1,7 +1,7 @@
 import WebSocket from 'ws';
 import schedule from 'node-schedule';
-import {Mongo} from '../lib/mongo';
-import {Event} from '../models/event.model';
+import {EventsManagerDb} from '../databases/eventsManager/eventsManager.db';
+import {Event} from '../databases/eventsManager/collections/events.collection';
 
 // TODO: Create a scheduler module
 export class EventUpdateWatcher {
@@ -14,14 +14,14 @@ export class EventUpdateWatcher {
    */
   public static watch(): void {
 
-    Mongo.model.event.collection
+    EventsManagerDb.event.collection
       .watch()
       .on('change', async (event) => {
 
         console.log('%o: New Document scheduledAt: %o', new Date(), event.fullDocument.scheduledAt);
 
         // TODO: Limit the number of declared jobs
-        Mongo.model.event.getNonExpiredEvents()
+        EventsManagerDb.event.getNonExpiredEvents()
           .then((events) => {
 
             // Erases all the scheduled jobs

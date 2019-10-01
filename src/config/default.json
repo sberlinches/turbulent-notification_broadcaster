@@ -6,16 +6,22 @@
       "strict": true
     }
   },
-  "model": {
-    "event": {
-      "db": "turbulent",
-      "collection": "event"
-    }
-  },
-  "mongo": {
-    "clientOptions": {
-      "useNewUrlParser": true,
-      "useUnifiedTopology": true
+  "databases": {
+    "mongoEventsManager": {
+      "host": "",
+      "port": "",
+      "user": "",
+      "password": "",
+      "clientOptions": {
+        "useNewUrlParser": true,
+        "useUnifiedTopology": true
+      },
+      "dbName": "turbulent",
+      "collections": {
+        "events": {
+          "collectionName": "event"
+        }
+      }
     }
   }
 }
