@@ -14,14 +14,14 @@ export class EventUpdateWatcher {
    */
   public static watch(): void {
 
-    EventsManagerDb.event.collection
+    EventsManagerDb.events.collection
       .watch()
       .on('change', async (event) => {
 
         console.log('%o: New Document scheduledAt: %o', new Date(), event.fullDocument.scheduledAt);
 
         // TODO: Limit the number of declared jobs
-        EventsManagerDb.event.getNonExpiredEvents()
+        EventsManagerDb.events.getNonExpiredEvents()
           .then((events) => {
 
             // Erases all the scheduled jobs

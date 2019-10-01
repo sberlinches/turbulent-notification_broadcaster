@@ -17,7 +17,7 @@ export class EventsManagerDb {
   );
 
   // Collections
-  public static event;
+  public static events;
 
   /**
    * Connects to the database
@@ -46,6 +46,6 @@ export class EventsManagerDb {
    * @param {MongoClient} mongoClient
    */
   private static initialize(mongoClient: MongoClient): void {
-    this.event = new EventsCollection(mongoClient);
+    this.events = new EventsCollection(mongoClient);
   }
 }
