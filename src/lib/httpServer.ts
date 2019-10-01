@@ -13,8 +13,8 @@ app.use(router);
  */
 class HttpServer {
 
-  private static readonly host: string = config.get('node.host');
-  private static readonly port: number = config.get('node.port');
+  private static readonly host: string = config.get('server.host');
+  private static readonly port: number = config.get('server.port');
   private static server;
 
   /**
