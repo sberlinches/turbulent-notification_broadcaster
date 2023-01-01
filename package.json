@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/sberlinches/turbulent-notification_broadcaster#readme",
   "dependencies": {
-    "config": "3.2.2",
+    "config": "3.3.8",
     "express": "4.17.1",
     "express-ws": "github:aral/express-ws",
     "mongodb": "3.3.2",
